@@ -230,8 +230,54 @@ $(document).ready(function(){
     file.onchange = function() {
         const files = this.files;
         audio.src = URL.createObjectURL(files[0]);
-        audio.load();
-        audio.play();
+        isAutoplaySupported = function(callback) {
+            if (typeof callback !== 'function') {
+                return false;
+            }
+            if (!sessionStorage.autoplaySupported) {
+                var audio = document.getElementById("audio");
+                audio.autoplay = true;
+                audio.src = URL.createObjectURL(files[0]);;
+                audio.load();
+                audio.style.display = 'none';
+                audio.playing = false;
+                audio.play();
+        
+                audio.onplay = function() {
+                    this.playing = true;
+                };
+                audio.oncanplay = function() {
+                    if (audio.playing) {
+                        sessionStorage.autoplaySupported = 'true';
+                        callback(true);
+                    } else {
+                        sessionStorage.autoplaySupported = 'false';
+                        callback(false);
+                    }
+                };
+            } else {
+                if (sessionStorage.autoplaySupported === 'true') {
+                    callback(true);
+                } else {
+                    callback(false);
+                }
+            }
+        }
+
+
+        isAutoplaySupported(function(supported) {
+            if (supported) {
+                console.log('HTML5 Audio Autoplay Supported!');
+            } else {
+                alert("Ops browsermu gk ijinin autoplay jadi silahkan play manual musiknya")
+                audio.style.display = 'block';
+                console.log('HTML5 Audio Autoplay Not Supported :(');
+
+                return;
+            }
+        });
+        // audio.load();
+        // audio.play();
         var context = new AudioContext();
         var src = context.createMediaElementSource(audio);
         var analyser = context.createAnalyser();

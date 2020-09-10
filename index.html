@@ -42,6 +42,15 @@
       background-color: rgba(100,100,100,0.3);
     }
 
+    #audio {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1001;
+      display: none;
+    }
+
     
 
  
@@ -49,7 +58,9 @@
 </head>
 
 <body>
-  <div id="app">
+  <div id="app"><audio id="audio" controls>
+            Your browser does not support the audio element.
+          </audio>
     <div class="main-wrapper">
       <canvas class="ampun-dj" id="canvas">
 
@@ -129,9 +140,7 @@
 
           <li id="buka-musik"><a href="#" class="nav-link nav-link-lg"><i class="fas fa-music"></i></a></li>
           <input type="file" style="display: none;" id="file" accept="audio/*">
-          <audio style="display: none;" id="audio">
-            Your browser does not support the audio element.
-          </audio>
+          
           
           <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle beep"><i class="far fa-envelope"></i></a>
             <div class="dropdown-menu dropdown-list dropdown-menu-right">
